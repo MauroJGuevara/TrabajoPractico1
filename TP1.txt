@@ -1,0 +1,84 @@
+Algoritmo sin_titulo
+	definir pasajeros, menu como caracter
+	definir asientosBa_Bar, asientosBa_Salta, asientosRos_Ba, asientosMdp_Men, asientosTotales,pasajero como entero
+	asientosBa_Bar = 120
+	asientosBa_Salta = 120
+	asientosRos_Ba = 80
+	asientosMdp_Men = 80
+	asientosTotales = asientosMdp_Men + asientosRos_Ba  + asientosBa_Salta + asientosBa_Bar
+	pasajero = -1
+	
+	dimension datoPasajeros[asientosTotales,5,4]
+	
+	
+	
+	repetir 
+		menu = verificaionMenu(menu)
+		segun menu hacer
+			"1":
+				pasajero = pasajero + 1
+				datoPasajeros = ventaPasaje(asientosTotales,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba,datoPasajeros,pasajero)
+				
+			"2":
+				escribir "2"
+				
+				
+			"3":
+				escribir "3"
+				
+				
+			"4":
+				escribir "4"
+				
+			"SALIR":
+				
+				Escribir "cerrando programa"
+				
+		FinSegun
+		
+	hasta que menu = "SALIR"
+	
+FinAlgoritmo
+
+
+
+SubProceso verificacion = verificaionMenu(menu) //verificacion y menu
+	definir verificacion Como Caracter
+	definir bandera Como Entero
+	
+	
+	escribir "1 - Venta de pasaje"
+	escribir "2 - Buscar pasaje vendido"
+	escribir "3 - Buscar pasajero"
+	escribir "4 - Ordenar y mostrar lista pasajeros"
+	//a. Por número de asiento Ascendente
+	//b. Por número de asiento Descendente
+	escribir "5 - Listado/s"
+	//a. Cantidad de pasajes vendido por ruta aérea
+	//b. Porcentaje de ventas por ruta aérea
+	
+	escribir "Ingrese la palabra salir para finalizar el programa"
+	
+	repetir 
+		leer verificacion
+		
+		si Mayusculas(verificacion) = "SALIR" o verificacion = "1" o verificacion = "2" o verificacion = "3" o verificacion = "4" o verificacion = "5"
+			verificacion = Mayusculas(verificacion)
+			bandera = 1
+		sino 
+			escribir "opcion incorrecta"
+			bandera = 0
+		FinSi
+		
+	hasta que bandera = 1
+	
+FinSubProceso
+
+// subproceso del punto 1 
+
+SubProceso dato = ventaPasaje(asientosTotales,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba,datoPasajeros,pasajero)
+	definir dato Como Caracter
+	
+	
+FinSubProceso
+
