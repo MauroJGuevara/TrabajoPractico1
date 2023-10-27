@@ -1,24 +1,37 @@
-Algoritmo TP1
-	definir pasajeros, menu, vuelos como caracter
-	definir asientosBa_Bar, asientosBa_Salta, asientosRos_Ba, asientosMdp_Men, asientosTotales,pasajero como entero
-	asientosBa_Bar = 120
-	asientosBa_Salta = 120
-	asientosRos_Ba = 80
-	asientosMdp_Men = 80
-	asientosTotales = asientosMdp_Men + asientosRos_Ba  + asientosBa_Salta + asientosBa_Bar
-	pasajero = -1
-	
-	dimension datoPasajeros[asientosTotales,8]
-	dimension vuelos[4]
-	
-	cargadatosVuelo(vuelos)
+Algoritmo sin_titulo
+	definir vueloBA_BAR, vueloBA_SAL, vueloROS_BA, vueloMDP_MEN, menu Como cadena
+	definir contBA_BAR, ruta como entero
+	Dimension vueloBA_BAR[120,8], vueloBA_SAL[120,8], vueloROS_BA[80,8], vueloMDP_MEN[80,8]
+	contBA_BAR =0
+	menu = verificacionMenu(menu)
 	
 	repetir 
 		menu = verificaionMenu(menu)
 		segun menu hacer
 			"1":
-				pasajero = pasajero + 1
+				elegirRuta(vueloBA_BAR,vueloBA_SAL,vueloROS_BA,vueloMDP_MEN)
+				leer ruta
+				Segun ruta
+					1:
+						cargarDatos(vueloBA_BAR, contBA_BAR)
+					2:
+						cargarDatos(vueloBA_SAL, contBA_SAL)
+					3:
+						cargarDatos(vueloROS_BA, contROS_BA)
+					4:
+						cargarDatos(vueloMDP_MEN, contMDP_MEN)
+				FinSegun
+				//pedis que ingfrese la ruta 
+				elegirRuta(vueloBA_BAR,vueloBA_SAL,vueloROS_BA,vueloMDP_MEN)
+				//pasar a venta pasaje (arreglo, contadorruta, contadorpasajero, ruta)
 				ventaPasaje(asientosTotales,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba,datoPasajeros,pasajero,vuelos)
+				
+				segun ruta
+					1:
+						calcular_monto(ruta,asientosBa_Bar,equipajePasajero)
+					2:
+						calcular_monto(ruta,asientosBa_Salta,equipajePasajero)
+				FinSegun
 				
 			"2":
 				escribir "2"
@@ -38,16 +51,14 @@ Algoritmo TP1
 		FinSegun
 		
 	hasta que menu = "SALIR"
-
+	
 FinAlgoritmo
 
-SubProceso cargadatosVuelo(vuelos)
-	vuelos[0] = "Buenos Aires - Bariloche"
-	vuelos[1] = "Bueno Aires - Salta"
-	vuelos[2] = "Rosario - Buenos Aires"
-	vuelos[3] = "Mar Del Plata - Mendoza"
-	
+subproceso cargarDatos(vuelo, cont por referencia)
+	leer vuelo[cont,0]
+	cont= cont +1
 FinSubProceso
+
 
 SubProceso verificacion = verificaionMenu(menu) //verificacion y menu
 	definir verificacion Como Caracter
@@ -58,11 +69,11 @@ SubProceso verificacion = verificaionMenu(menu) //verificacion y menu
 	escribir "2 - Buscar pasaje vendido"
 	escribir "3 - Buscar pasajero"
 	escribir "4 - Ordenar y mostrar lista pasajeros"
-	//a. Por número de asiento Ascendente
-	//b. Por número de asiento Descendente
+	//a. Por n mero de asiento Ascendente
+	//b. Por n mero de asiento Descendente
 	escribir "5 - Listado/s"
-	//a. Cantidad de pasajes vendido por ruta aérea
-	//b. Porcentaje de ventas por ruta aérea
+	//a. Cantidad de pasajes vendido por ruta a rea
+	//b. Porcentaje de ventas por ruta a rea
 	
 	escribir "Ingrese la palabra salir para finalizar el programa"
 	
@@ -81,226 +92,26 @@ SubProceso verificacion = verificaionMenu(menu) //verificacion y menu
 	
 FinSubProceso
 
-// subproceso del punto 1 
-
-SubProceso ventaPasaje(asientosTotales,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba,datoPasajeros,pasajero,vuelos)
-	definir NombrePasajero, rutaPasajero, equipajePasajero, pasajeroFrecuente,telPasajero Como Caracter
-	definir numeroAsiento, dniPasajero Como Entero
-	definir montoVuelo Como Real
-	
-	rutaPasajero = verificacionRuta(vuelos,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba)
-	datoPasajeros[pasajero,0] = rutaPasajero
-	
-	segun rutaPasajero
-		"Buenos Aires - Bariloche":
-			asientosBa_Bar = asientosBa_Bar - 1
-		"Bueno Aires - Salta":
-			asientosBa_Salta = asientosBa_Salta - 1
-		"Rosario - Buenos Aires":
-			asientosRos_Ba = asientosRos_Ba - 1
-		"Mar Del Plata - Mendoza":
-			asientosMdp_Men = asientosMdp_Men - 1
-	FinSegun
-	
-	escribir "Ingrese el nombre del pasajero: "
-	leer NombrePasajero
-	datoPasajeros[pasajero,1] = NombrePasajero
-	
-	dniPasajero = ingresoDni
-	datoPasajeros[pasajero,2] = ConvertirATexto(dniPasajero)
-	
-	Mientras Longitud(telPasajero) < 12 o Longitud(telPasajero) > 13
-		escribir "Ingrese su numero de telefono: "
-		leer telPasajero
-		si Longitud(telPasajero) < 12 o Longitud(telPasajero) > 13
-			escribir "numero invalido"
-		FinSi
-	FinMientras
-	
-	datoPasajeros[pasajero,3] = telPasajero
-	
-	equipajePasajero = verifacionEquipaje
-	datoPasajeros[pasajero,4] = equipajePasajero
-	
-	Mientras Longitud(pasajeroFrecuente) <> 4
-		Escribir "Ingrese los 4 digitos de su numero de pasajero frecuente: "
-		leer pasajeroFrecuente
-		si Longitud(pasajeroFrecuente) <> 4
-			escribir "numero invalido"
-		FinSi
-	FinMientras
-	datoPasajeros[pasajero,5] = pasajeroFrecuente
-	
-	numeroAsiento = asignaAsiento(rutaPasajero,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba)
-	datoPasajeros[pasajero,6] = ConvertirATexto(numeroAsiento)
-	
-	montoVuelo = montoFinal(rutaPasajero,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba,equipajePasajero)
-	datoPasajeros[pasajero,7] = ConvertirATexto(montoVuelo)
-	
-	para i = 0 hasta 7 Hacer
-		escribir "   ", datoPasajeros[pasajero,i]
-	FinPara
-FinSubProceso
-
-// Subproceso de seleccion de ruta 
-
-SubProceso return = verificacionRuta(vuelos,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba)
-	Definir return Como Caracter
-	definir bandera, opcionVuelo Como Entero
-	
-repetir
-	escribir "Ingrese la opcion de la ruta que desea : "
-	Para i = 0 hasta 3 Hacer
-		escribir " - ", i+1 " - ",vuelos[i]
-	FinPara
+SubProceso elegirRuta(vueloBA_BAR,vueloBA_SAL,vueloROS_BA,vueloMDP_MEN)
+	definir opcionVuelo, bandera como entero
 	Repetir
+		escribir "Ingrese la opcion de la ruta que desea : "
+		escribir"1-Buenos Aires - Bariloche"
+		escribir"2-Bueno Aires - Salta"
+		escribir"3-Rosario - Buenos Aires"
+		escribir"4-Mar Del Plata - Mendoza"
 		leer opcionVuelo
 		si opcionVuelo< 1 o opcionVuelo > 4
 			escribir "opcion incorrecta"
-			bandera = 0
+		
 		FinSi
 	hasta que opcionVuelo < 4 y opcionVuelo > 0
 	
-	segun opcionVuelo
+	
+	segun
 		1:
-			si asientosBa_Bar = 0
-				Escribir "no hay asientos disponibles, disculpe las molestias"
-				bandera = 0
-			sino
-				return = vuelos[0]
-				bandera = 1
-			FinSi
-		2:
-			si asientosBa_Salta = 0
-				Escribir "no hay asientos disponibles, disculpe las molestias"
-				bandera = 0
-			sino
-				return = vuelos[1]
-				bandera = 1
-			FinSi
-		3: 
-			si asientosRos_Ba = 0
-				Escribir "no hay asientos disponibles, disculpe las molestias"
-				bandera = 0
-			sino
-				return = vuelos[2]
-				bandera = 1
-			FinSi
-		4:
-			si asientosMdp_Men = 0
-				Escribir "no hay asientos disponibles, disculpe las molestias"
-				bandera = 0
-			sino
-				return = vuelos[3]
-				bandera = 1
-			FinSi
-	FinSegun
-Mientras Que bandera = 0
-escribir "Destino seleccionado: ", return
-	
-FinSubProceso
-
-
-// subproceso de ingreso de dniPasajero
-SubProceso return = ingresoDni
-	definir return, DNI como entero
-	Mientras DNI < 10000000 o DNI > 99999999
-		escribir "Ingrese el DNI del pasajero: "
-		leer DNI
-		si DNI < 10000000 o DNI > 99999999
-			escribir "DNI invalido"
-		FinSi
-	FinMientras
-	
-	return = DNI
-FinSubProceso
-
-//subproceso de verifacion del Equipaje
-
-SubProceso return = verifacionEquipaje
-	definir return, optEquipaje Como Caracter
-	Repetir
-		escribir "Desea despachar el equipaje en bodega? Si/No"
-		Leer optEquipaje
-		si Mayusculas(optEquipaje) <> "SI" y Mayusculas(optEquipaje) <> "NO"
-			escribir "opcion incorrecta"
-		FinSi
-	hasta que Mayusculas(optEquipaje) = "SI" o Mayusculas(optEquipaje) = "NO"
-	
-	si Mayusculas(optEquipaje) = "SI"
-		return = "Verdadero"
-	sino
-		return = "Falso"
-	FinSi
-FinSubProceso
-
-//subproceso para asignar asiento 
-
-SubProceso return = asignaAsiento(rutaPasajero,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba)
-	definir return Como entero
-	segun rutaPasajero
-		"Buenos Aires - Bariloche":
-			return = asientosBa_Bar + 1
-		"Bueno Aires - Salta":
-			return = asientosBa_Salta + 1
-		"Rosario - Buenos Aires":
-			return = asientosRos_Ba + 1
-		"Mar Del Plata - Mendoza":
-			return = asientosMdp_Men + 1
+			
 	FinSegun
 	
+	
 FinSubProceso
-
-//subproceso de monto final del vuelo 
-
-SubProceso return = montoFinal(rutaPasajero,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba,equipajePasajero)
-	definir return, montoBase como real
-	segun rutaPasajero
-		"Buenos Aires - Bariloche":
-			si asientosBa_Bar + 1 >= 100
-				montoBase = 150000
-			SiNo
-				si asientosBa_Bar + 1 >= 60 
-					montoBase = 150000 * 1.10
-				sino
-					montoBase = 180000
-				FinSi
-			FinSi
-		"Bueno Aires - Salta":
-			si asientosBa_Salta + 1 >= 100
-				montoBase = 120000
-			SiNo
-				si asientosBa_Salta + 1 >= 60 
-					montoBase = 120000 * 1.10
-				sino
-					montoBase = 150000
-				FinSi
-			FinSi
-		"Rosario - Buenos Aires":
-			si asientosRos_Ba + 1 >= 70
-				montoBase = 70000
-			SiNo
-				si asientosRos_Ba + 1 >= 40 
-					montoBase = 70000 * 1.15
-				sino
-					montoBase = 95000
-				FinSi
-			FinSi
-		"Mar Del Plata - Mendoza":
-			si asientosMdp_Men + 1 >= 70
-				montoBase = 95000
-			SiNo
-				si asientosMdp_Men + 1 >= 40 
-					montoBase = 95000 * 1.15
-				sino
-					montoBase = 125000
-				FinSi
-			FinSi
-	FinSegun
-	si equipajePasajero = "Verdadero"
-		return = montoBase * 1.05
-	SiNo
-		return = montoBase
-	FinSi
-FinSubProceso
-
