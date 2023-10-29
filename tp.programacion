@@ -1,0 +1,120 @@
+
+	Algoritmo sin_titulo
+		definir vueloBA_BAR, vueloBA_SAL, vueloROS_BA, vueloMDP_MEN, menu como cadena
+		definir contBA_BAR, contBA_SAL, contROS_BA, contMDP_MEN, ruta, equipaje como entero
+		Dimension vueloBA_BAR[120,8], vueloBA_SAL[120,8], vueloROS_BA[80,8], vueloMDP_MEN[80,8]
+		contBA_BAR =0; contBA_SAL=0; contMDP_MEN=0; contROS_BA=0
+		menu = verificacionMenu(menu)
+		escribir "*****************************"
+		Escribir  "    BIENVENIDOS A AIRMAX    "
+		Escribir  "      Tu mejor opción       ";
+		escribir "*****************************"
+		escribir "              MENU           "
+		repetir 
+			menu = verificacionMenu(menu) 
+			segun menu hacer
+				"1":
+					elegirRuta(vueloBA_BAR,vueloBA_SAL,vueloROS_BA,vueloMDP_MEN)
+					leer ruta
+					Segun ruta
+						1:
+							cargarDatos(vueloBA_BAR, contBA_BAR) 
+						2:
+							cargarDatos(vueloBA_SAL, contBA_SAL)
+						3:
+							cargarDatos(vueloROS_BA, contROS_BA)
+						4:
+							cargarDatos(vueloMDP_MEN, contMDP_MEN)
+							
+					FinSegun
+					//pedis que ingfrese la ruta 
+					elegirRuta(vueloBA_BAR,vueloBA_SAL,vueloROS_BA,vueloMDP_MEN)
+					//pasar a venta pasaje (arreglo, contadorruta, contadorpasajero, ruta)
+					ventaPasaje(asientosTotales,asientosBa_Bar,asientosBa_Salta,asientosMdp_Men,asientosRos_Ba,datoPasajeros,pasajero,vuelos)
+					
+					segun ruta
+						1:
+							calcular_monto(ruta,asientosBa_Bar,equipajePasajero)
+						2:
+							calcular_monto(ruta,asientosBa_Salta,equipajePasajero)
+					FinSegun
+					
+				"2":
+					escribir "2"
+					
+					
+				"3":
+					escribir "3"
+					
+					
+				"4":
+					escribir "4"
+					
+				"SALIR":
+					
+					Escribir "    ¡ Adios !      "
+					Escribir "Cerrando programa.."
+					
+			FinSegun
+			
+		hasta que menu = "SALIR"
+		
+FinAlgoritmo
+
+subproceso cargarDatos(vuelo, cont por referencia)
+	leer vuelo[cont,0]
+	cont= cont +1 
+
+FinSubProceso
+
+SubProceso verificacion = verificacionMenu(menu) //verificacion y menu
+	definir verificacion Como Caracter
+	definir bandera Como Entero
+	
+	
+	escribir "1 - Venta de pasaje"
+	escribir "2 - Buscar pasaje vendido"
+	escribir "3 - Buscar pasajero"
+	escribir "4 - Ordenar y mostrar lista pasajeros"
+	//a. Por n mero de asiento Ascendente
+	//b. Por n mero de asiento Descendente
+	escribir "5 - Listado/s"
+	//a. Cantidad de pasajes vendido por ruta a rea
+	//b. Porcentaje de ventas por ruta a rea
+	
+	escribir "Ingrese la palabra salir para finalizar el programa"
+	
+	repetir 
+		leer verificacion
+		
+		si Mayusculas(verificacion) = "SALIR" o verificacion = "1" o verificacion = "2" o verificacion = "3" o verificacion = "4" o verificacion = "5"
+			verificacion = Mayusculas(verificacion)
+			bandera = 1
+		sino 
+			escribir "opcion incorrecta"
+			bandera = 0
+		FinSi
+		
+	hasta que bandera = 1
+	
+FinSubProceso
+
+SubProceso elegirRuta(vueloBA_BAR,vueloBA_SAL,vueloROS_BA,vueloMDP_MEN)
+	definir opcionVuelo, bandera, plazasDisp como entero
+	Repetir
+		escribir "Ingrese la opcion de la ruta que desea : "
+		escribir"1-Buenos Aires - Bariloche"
+		escribir"2-Bueno Aires - Salta"
+		escribir"3-Rosario - Buenos Aires"
+		escribir"4-Mar Del Plata - Mendoza"
+		leer opcionVuelo
+		si opcionVuelo< 1 o opcionVuelo > 4
+			escribir "opcion incorrecta"
+			
+		FinSi
+	hasta que opcionVuelo < 4 y opcionVuelo > 0
+	
+	
+	
+FinSubProceso
+	
