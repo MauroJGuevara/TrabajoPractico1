@@ -1,8 +1,8 @@
 
 	Algoritmo sin_titulo
-		definir vueloBA_BAR, vueloBA_SAL, vueloROS_BA, vueloMDP_MEN, menu como cadena
-		definir contBA_BAR, contBA_SAL, contROS_BA, contMDP_MEN, ruta, equipaje como entero
-		Dimension vueloBA_BAR[120,8], vueloBA_SAL[120,8], vueloROS_BA[80,8], vueloMDP_MEN[80,8]
+		definir vueloBA_BAR, vueloBA_SAL, vueloROS_BA, vueloMDP_MEN, menu, pasajeros, nombre, apellido  como cadena
+		definir contBA_BAR, contBA_SAL, contROS_BA, contMDP_MEN, ruta, equipaje, dni, cel, nroasiento como entero
+		Dimension vueloBA_BAR[120,8], vueloBA_SAL[120,8], vueloROS_BA[80,8], vueloMDP_MEN[80,8] 
 		contBA_BAR =0; contBA_SAL=0; contMDP_MEN=0; contROS_BA=0
 		menu = verificacionMenu(menu)
 		escribir "*****************************"
@@ -63,7 +63,10 @@ FinAlgoritmo
 
 subproceso cargarDatos(vuelo, cont por referencia)
 	leer vuelo[cont,0]
-	cont= cont +1 
+	cont= cont +1
+	Para variable_numerica<-valor_inicial Hasta valor_final Con Paso paso Hacer
+		secuencia_de_acciones
+	Fin Para
 
 FinSubProceso
 
