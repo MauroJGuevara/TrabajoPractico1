@@ -2,13 +2,13 @@
 	Algoritmo sin_titulo
 		definir vueloBA_BAR, vueloBA_SAL, vueloROS_BA, vueloMDP_MEN, menu Como cadena
 		definir contBA_BAR, ruta,columnaAsiento,columnaTotal como entero
-		Dimension vueloBA_BAR[120,8], vueloBA_SAL[120,8], vueloROS_BA[80,8], vueloMDP_MEN[80,8]
+		Dimension vueloBA_BAR[120,9], vueloBA_SAL[120,9], vueloROS_BA[80,9], vueloMDP_MEN[80,9]
 		contBA_BAR =0
 		contBA_SAL = 0
 		contROS_BA = 0
 		contMDP_MEN = 0
 		columnaAsiento = 0
-		columnaTotal = 8
+		columnaTotal = 9
 		
 		
 	repetir 
@@ -17,21 +17,37 @@
 				"1":
 					ruta = elegirRuta(ruta)
 					
-					Segun ruta
+					Segun ruta Hacer
 						1:
-							si contBA_BAR <= 120
-								cargarDatos(vueloBA_BAR, contBA_BAR)
-								calcularMonto(vueloBA_BAR, contBA_BAR)
-								
+							si contBA_BAR < 120
+								vueloBA_BAR[contBA_BAR,7] = "Buenos Aires - Bariloche"
+								cargarDatos(vueloBA_BAR, contBA_BAR,ruta)
 							SiNo
 								escribir "El vuelo no tiene asientos disponibles"
+							FinSi
 						2:
-							cargarDatos(vueloBA_SAL, contBA_SAL)
+							si contBA_SAL < 120
+								vueloBA_SAL[contBA_SAL,7] = "Bueno Aires - Salta"
+								cargarDatos(vueloBA_SAL, contBA_SAL,ruta)
+							SiNo
+								escribir "El vuelo no tiene asientos disponibles"
+							FinSi
 						3:
-							cargarDatos(vueloROS_BA, contROS_BA)
+							si contROS_BA < 80
+								vueloROS_BA[contROS_BA,7] = "Rosario - Buenos Aires"
+								cargarDatos(vueloROS_BA, contROS_BA,ruta)
+							SiNo
+								escribir "El vuelo no tiene asientos disponibles"
+							FinSi
 						4:
-							cargarDatos(vueloMDP_MEN, contMDP_MEN)
+							si contMDP_MEN <80
+								vueloMDP_MEN[contMDP_MEN,7] = "Mar Del Plata - Mendoza"
+								cargarDatos(vueloMDP_MEN, contMDP_MEN,ruta)
+							SiNo
+								escribir "El vuelo no tiene asientos disponibles"
+							FinSi
 					FinSegun
+					
 				"2":
 					ruta = elegirRuta(ruta)
 					//segun ruta subproceso buscapasaje y pasar datos de la ruta 
@@ -61,33 +77,33 @@
 							segun optAscDesc
 								"a":
 									ordenarAsc(vueloBA_SAL, contBA_SAL,columnaAsiento)
-									mostrarPasajeros(vueloBA_SAL, contBA_SAL,columnaAsiento)
+									mostrarPasajeros(vueloBA_SAL, contBA_SAL,columnaTotal)
 								"b":
 									ordenarDesc(vueloBA_SAL, contBA_SAL,columnaAsiento)
-									mostrarPasajeros(vueloBA_SAL, contBA_SAL,columnaAsiento)
+									mostrarPasajeros(vueloBA_SAL, contBA_SAL,columnaTotal)
 							FinSegun
 						3:
 							optAscDesc = seleccionarAscDesc(optAscDesc)
 							segun optAscDesc
 								"a":
 									ordenarAsc(vueloROS_BA, contROS_BA,columnaAsiento)
-									mostrarPasajeros(vueloROS_BA, contROS_BA,columnaAsiento)
+									mostrarPasajeros(vueloROS_BA, contROS_BA,columnaTotal)
 								"b":
 									ordenarDesc(vueloROS_BA, contROS_BA,columnaAsiento)
-									mostrarPasajeros(vueloROS_BA, contROS_BA,columnaAsiento)
+									mostrarPasajeros(vueloROS_BA, contROS_BA,columnaTotal)
 							FinSegun
 						4:
 							optAscDesc = seleccionarAscDesc(optAscDesc)
 							segun optAscDesc
 								"a":
 									ordenarAsc(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
-									mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
+									mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaTotal)
 								"b":
 									ordenarDesc(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
-									mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
+									mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaTotal)
 							FinSegun
 						5:
-							Listado(contBA_BAR, contBA_SAL,contROS_BA, contMDP_MEN)
+							//Listado(contBA_BAR,contBA_SAL,contROS_BA,contMDP_MEN)
 					FinSegun
 				"SALIR":
 					
@@ -96,7 +112,70 @@
 	hasta que menu = "SALIR"
 FinAlgoritmo
 
-subproceso cargarDatos(vuelo, cont por referencia)
+//_______________________________________________________CARGAR DATOS____________________
+subproceso cargarDatos(vuelo, cont por referencia,ruta)
+	definir nombrePasajero,apellidoPasajero, equipajePasajero, telPasajero,optEquipaje Como Caracter
+	definir numeroAsiento, dniPasajero, pasajeroFrecuente Como Entero
+	definir montoVuelo Como Real
+	
+	escribir "Ingrese el nombre del pasajero"
+	leer nombrePasajero
+	vuelo[cont,1] = nombrePasajero
+	
+	Escribir "Ingrese el apellido del pasajero"
+	leer apellidoPasajero
+	vuelo[cont,2] = apellidoPasajero
+		
+	Mientras dniPasajero < 10000000 o dniPasajero > 99999999
+		escribir "Ingrese el DNI del pasajero: "
+		leer dniPasajero
+		si dniPasajero< 10000000 o dniPasajero > 99999999
+			escribir "DNI invalido"
+		FinSi
+	FinMientras
+	
+	vuelo[cont,3] = ConvertirATexto(dniPasajero)
+	
+	Mientras Longitud(telPasajero) < 12 o Longitud(telPasajero) > 13
+		escribir "Ingrese su numero de telefono: "
+		leer telPasajero
+		si Longitud(telPasajero) < 12 o Longitud(telPasajero) > 13
+			escribir "numero invalido"
+		FinSi
+	FinMientras
+	
+	vuelo[cont,4] = telPasajero
+	
+	Repetir
+		escribir "Desea despachar el equipaje en bodega? Si/No"
+		Leer optEquipaje
+		si Mayusculas(optEquipaje) <> "SI" y Mayusculas(optEquipaje) <> "NO"
+			escribir "opcion incorrecta"
+		FinSi
+	hasta que Mayusculas(optEquipaje) = "SI" o Mayusculas(optEquipaje) = "NO"
+	
+	si Mayusculas(optEquipaje) = "SI"
+		equipajePasajero = "Verdadero"
+	sino
+		equipajePasajero = "Falso"
+	FinSi
+	
+	vuelo[cont,5] = equipajePasajero
+	
+	Mientras pasajeroFrecuente < 1000 o pasajeroFrecuente > 9999
+		Escribir "Ingrese los 4 digitos de su numero de pasajero frecuente: "
+		leer pasajeroFrecuente
+		si pasajeroFrecuente < 1000 o pasajeroFrecuente > 9999
+			escribir "numero invalido"
+		FinSi
+	FinMientras
+	vuelo[cont,6] = ConvertirATexto(pasajeroFrecuente)
+	
+	montoVuelo = calcularMonto(contBA_BAR, contBA_SAL,contROS_BA, contMDP_MEN,ruta)
+	vuelo[cont,8] = ConvertirATexto(montoVuelo)
+	
+	vuelo[cont,0] = ConvertirATexto(cont + 1)
+	cont = cont + 1
 	
 FinSubProceso
 
@@ -109,7 +188,7 @@ SubProceso ordenarAsc(vuelo,cont,columnaAOrdenar)
 				para h=0 hasta cont - 2
 				aux = ConvertirANumero(vuelo[i,columnaAOrdenar])										//el dato a buscar se podria preguntar arriba y se utilizaria como una variable en el ordenamiento ej: dni columna = 1 pasar el dato columna a buscar al subproceso
 				vuelo[i,columnaAOrdenar] = vuelo[j,columnaAOrdenar]
-				ConvertirANumero(vuelo[j,columnaAOrdenar]) = aux
+				vuelo[j,columnaAOrdenar] = ConvertirATexto(aux)
 			FinPara
 			FinSi
 		FinPara
@@ -235,8 +314,9 @@ FinSubProceso
 
 //_____________________________________________Mostrar Pasajero __________________________
 SubProceso mostrarPasajeros(vuelo,cont,n)
-	
+	escribir "numero de pasaje " 
 	para i = 0 hasta cont - 1
+		Escribir "-------------------------------------------------------"
 		para j = 0 hasta n - 1 
 			Escribir Sin Saltar " | " vuelo[i,j] 
 		FinPara
@@ -264,17 +344,17 @@ SubProceso Listado(contBA_BAR, contBA_SAL,contROS_BA, contMDP_MEN)
 			Escribir"vuelos vendidos de Rosario a Bs As: ", contROS_BA, " de 80"
 			Escribir"vuelos vendidos de Mar del Plata a Mendoza: ", contMDP_MEN, " de 80"
 		"b":
-			
-			escribir"porcentaje de vuelos vendidos de Bs As a Bariloche: ", contBA_BAR*100/120"%"
-			Escribir"porcentaje de vuelos vendidos de Bs As a Salta: ", contBA_SAL*100/120"%"
-			Escribir"porcentaje de vuelos vendidos de Rosario a Bs As: ", contROS_BA*100/80"%"
-			Escribir"porcentaje de vuelos vendidos de Mar del Plata a Mendoza: ", contMDP_MEN*100/80"%"
+			escribir "tuvieja"
+			//escribir"porcentaje de vuelos vendidos de Bs As a Bariloche: ", contBA_BAR*100/120"%"
+			//Escribir"porcentaje de vuelos vendidos de Bs As a Salta: ", contBA_SAL*100/120"%"
+			//Escribir"porcentaje de vuelos vendidos de Rosario a Bs As: ", contROS_BA*100/80"%"
+			//Escribir"porcentaje de vuelos vendidos de Mar del Plata a Mendoza: ", contMDP_MEN*100/80"%"
 			
 	FinSegun
 	
 FinSubProceso
 //__________________MONTO PASAJES__________________
-SubProceso montoFinal(contBA_BAR, contBA_SAL,contROS_BA, contMDP_MEN)
+SubProceso montoFinal = calcularMonto(contBA_BAR, contBA_SAL,contROS_BA, contMDP_MEN,ruta)
 	definir montoBase, montoFinal como real
 	montoBase = 0
 	segun ruta
