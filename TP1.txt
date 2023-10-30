@@ -10,9 +10,14 @@ Algoritmo sin_titulo
 	columnaTotal = 9
 	columnaNombre = 1
 	columnaApellido = 2
-	
+	 
 	
 	repetir 
+		escribir "*****************************"
+		Escribir  "    BIENVENIDOS A AIRMAX    "
+		Escribir  "      Tu mejor opción       ";
+		escribir "*****************************"
+		escribir "              MENU           "
 		menu = verificarMenu(menu)
 		segun menu hacer
 			"1":
@@ -118,11 +123,11 @@ Algoritmo sin_titulo
 								mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaTotal)
 						FinSegun
 					5:
-						//Listado(contBA_BAR,contBA_SAL,contROS_BA,contMDP_MEN)
+						Listado(contBA_BAR,contBA_SAL,contROS_BA,contMDP_MEN)
 				FinSegun
 			"SALIR":
-				
-				Escribir "cerrando programa"
+				Escribir "    ¡ Adios !      "
+				Escribir "Cerrando programa.."
 		FinSegun
 	hasta que menu = "SALIR"
 FinAlgoritmo
@@ -132,14 +137,20 @@ subproceso cargarDatos(vuelo, cont por referencia,ruta)
 	definir nombrePasajero,apellidoPasajero, equipajePasajero, telPasajero,optEquipaje Como Caracter
 	definir numeroAsiento, dniPasajero, pasajeroFrecuente Como Entero
 	definir montoVuelo Como Real
-	
-	escribir "Ingrese el nombre del pasajero"
-	leer nombrePasajero
-	vuelo[cont,1] = nombrePasajero
-	
-	Escribir "Ingrese el apellido del pasajero"
-	leer apellidoPasajero
-	vuelo[cont,2] = apellidoPasajero
+	nombrePasajero= ""
+	apellidoPasajero=""
+	Repetir
+		si nombrePasajero == "" Entonces
+		    escribir "Ingrese el nombre del pasajero"
+		    leer nombrePasajero
+			vuelo[cont,1] = nombrePasajero
+	    FinSi
+	    Si apellidoPasajero == "" Entonces  
+		    Escribir "Ingrese el apellido del pasajero"
+		    leer apellidoPasajero
+		    vuelo[cont,2] = apellidoPasajero
+		FinSi
+	Mientras Que longitud(nombrePasajero) == 0 o longitud(apellidoPasajero) ==0
 	
 	Mientras dniPasajero < 10000000 o dniPasajero > 99999999
 		escribir "Ingrese el DNI del pasajero: "
@@ -194,9 +205,9 @@ subproceso cargarDatos(vuelo, cont por referencia,ruta)
 escribir "Ruta: ", vuelo[cont,7] 
 escribir "Nombre y Apellido: " ,vuelo[cont,1] " ", vuelo[cont,2]
 escribir "DNI: ", vuelo[cont,3]
-escribir "TelÃ©fono: ", vuelo[cont,4]
+escribir "Teléfono: ", vuelo[cont,4]
 escribir "Equipaje en bodega: ",vuelo[cont,5]
-escribir "NÃºmero pasajero frecuente: " ,vuelo[cont,6]
+escribir "Número pasajero frecuente: " ,vuelo[cont,6]
 escribir "Asiento: ", vuelo[cont,0] 
 escribir "Costo pasaje: $",vuelo[cont,8] 
 cont = cont + 1
@@ -205,12 +216,13 @@ cont = cont + 1
 FinSubProceso
 
 //__________________________________________________________ORDENAR ASCENDENTE__________________________________________________________
+
 SubProceso ordenarAsc(vuelo,cont,columnaAOrdenar)
 	definir posMenor Como Entero
 	definir aux Como Caracter
-	para i = 0 hasta cont-1
+	para i = 0 hasta cont -1
 		posMenor = i
-		para j = i + 1 hasta cont - 2
+		para j = i + 1 hasta cont  - 2
 			si ConvertirANumero(vuelo[i,columnaAOrdenar]) > ConvertirANumero(vuelo[j,columnaAOrdenar])	
 				para h=0 hasta 8
 					aux = vuelo[i,h]										
@@ -220,16 +232,15 @@ SubProceso ordenarAsc(vuelo,cont,columnaAOrdenar)
 			FinSi
 		FinPara
 	FinPara
-	
 FinSubProceso
 
 //___________________________________________________ORDENAR DESCENDENTE_________________________________________________________________
 SubProceso ordenarDesc(vuelo,cont,columnaAOrdenar)
 	definir posMenor Como Entero
 	definir aux como cadena
-	para i = 0 hasta cont-1
+	para i = 0 hasta cont
 		posMenor = i
-		para j = i + 1 hasta cont - 2
+		para j = i + 1 hasta cont
 			si ConvertirANumero(vuelo[posMenor,columnaAOrdenar]) < ConvertirANumero(vuelo[j,columnaAOrdenar])
 				posMenor = j
 				para h = 0 hasta 8
@@ -281,8 +292,8 @@ SubProceso buscarNombrePasajero(vuelo,cont,nombre,apellido)
 	definir nombreAbuscar, apellidoAbuscar,aux como cadena
 	definir  encontrado Como Logico
 	
-	si cont>2
-		para i = 0 hasta cont-2
+si cont>2
+	para i = 0 hasta cont-2
 		posMenor = i
 		para j = i + 1 hasta cont -1
 			si Concatenar(vuelo[j,nombre],vuelo[j,apellido]) < Concatenar(vuelo[posMenor,nombre],vuelo[posMenor,apellido])
@@ -411,8 +422,8 @@ SubProceso Listado(contBA_BAR, contBA_SAL,contROS_BA, contMDP_MEN)
 	
 	
 	Escribir "Ingrese la opcion que desea"
-	escribir "a - Cantidad de pasajes vendido por ruta aÃ©rea"
-	escribir "b - Porcentaje de ventas por ruta aÃ©rea"
+	escribir "a - Cantidad de pasajes vendido por ruta aérea"
+	escribir "b - Porcentaje de ventas por ruta aérea"
 	repetir 
 		leer opt
 		si Minusculas(opt) <> "a" y Minusculas(opt) <> "b"
