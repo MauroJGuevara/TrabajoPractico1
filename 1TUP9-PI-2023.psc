@@ -11,7 +11,7 @@ Algoritmo sistPasajesAereos
 	columnaTotal = 9
 	columnaNombre = 1
 	columnaApellido = 2
-	 
+	
 	
 	repetir 
 		escribir "*****************************"
@@ -123,9 +123,11 @@ Algoritmo sistPasajesAereos
 								ordenarDesc(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
 								mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaTotal)
 						FinSegun
-					5:
-						Listado(contBA_BAR,contBA_SAL,contROS_BA,contMDP_MEN)
 				FinSegun
+				
+			"5":
+			Listado(contBA_BAR,contBA_SAL,contROS_BA,contMDP_MEN)
+			
 			"SALIR":
 				Escribir "    ¡ Adios !      "
 				Escribir "Cerrando programa.."
@@ -135,23 +137,27 @@ FinAlgoritmo
 
 //_______________________________________________________CARGAR DATOS____________________
 subproceso cargarDatos(vuelo, cont por referencia,ruta)
-	definir nombrePasajero,apellidoPasajero, equipajePasajero, telPasajero,optEquipaje Como Caracter
-	definir numeroAsiento, dniPasajero, pasajeroFrecuente Como Entero
+	definir nombrePasajero,apellidoPasajero, equipajePasajero, optEquipaje Como Caracter
+	definir numeroAsiento, dniPasajero, pasajeroFrecuente,telPasajero Como Entero
 	definir montoVuelo Como Real
 	nombrePasajero= ""
 	apellidoPasajero=""
 	Repetir
-		si nombrePasajero == "" Entonces
+		si nombrePasajero = "" Entonces
 		    escribir "Ingrese el nombre del pasajero"
 		    leer nombrePasajero
 			vuelo[cont,1] = nombrePasajero
 	    FinSi
-	    Si apellidoPasajero == "" Entonces  
+	  
+	Mientras Que longitud(nombrePasajero) = 0
+	
+	Repetir
+		Si apellidoPasajero == "" Entonces  
 		    Escribir "Ingrese el apellido del pasajero"
 		    leer apellidoPasajero
 		    vuelo[cont,2] = apellidoPasajero
 		FinSi
-	Mientras Que longitud(nombrePasajero) == 0 o longitud(apellidoPasajero) ==0
+	Mientras Que Longitud(apellidoPasajero) = 0
 	
 	Mientras dniPasajero < 10000000 o dniPasajero > 99999999
 		escribir "Ingrese el DNI del pasajero: "
@@ -163,15 +169,15 @@ subproceso cargarDatos(vuelo, cont por referencia,ruta)
 	
 	vuelo[cont,3] = ConvertirATexto(dniPasajero)
 	
-	Mientras Longitud(telPasajero) < 12 o Longitud(telPasajero) > 13
-		escribir "Ingrese su numero de telefono: "
+	Mientras telPasajero < 1000000000 o telPasajero > 9999999999
+		escribir "Ingrese el numero de telefono del pasajero (sin el codigo de area): "
 		leer telPasajero
-		si Longitud(telPasajero) < 12 o Longitud(telPasajero) > 13
-			escribir "numero invalido"
+		si telPasajero < 1000000000 o telPasajero > 9999999999
+			escribir "numero de telefono invalido"
 		FinSi
 	FinMientras
 	
-	vuelo[cont,4] = telPasajero
+	vuelo[cont,4] = ConvertirATexto(telPasajero)
 	
 	Repetir
 		escribir "Desea despachar el equipaje en bodega? Si/No"
@@ -203,16 +209,16 @@ subproceso cargarDatos(vuelo, cont por referencia,ruta)
 	
 	vuelo[cont,0] = ConvertirATexto(cont + 1)
 	
-escribir "Ruta: ", vuelo[cont,7] 
-escribir "Nombre y Apellido: " ,vuelo[cont,1] " ", vuelo[cont,2]
-escribir "DNI: ", vuelo[cont,3]
-escribir "Teléfono: ", vuelo[cont,4]
-escribir "Equipaje en bodega: ",vuelo[cont,5]
-escribir "Número pasajero frecuente: " ,vuelo[cont,6]
-escribir "Asiento: ", vuelo[cont,0] 
-escribir "Costo pasaje: $",vuelo[cont,8] 
-cont = cont + 1
-
+	escribir "Ruta: ", vuelo[cont,7] 
+	escribir "Nombre y Apellido: " ,vuelo[cont,1] " ", vuelo[cont,2]
+	escribir "DNI: ", vuelo[cont,3]
+	escribir "Teléfono: +54 ", vuelo[cont,4]
+	escribir "Equipaje en bodega: ",vuelo[cont,5]
+	escribir "Número pasajero frecuente: " ,vuelo[cont,6]
+	escribir "Asiento: ", vuelo[cont,0] 
+	escribir "Costo pasaje: $",vuelo[cont,8] 
+	cont = cont + 1
+	
 	
 FinSubProceso
 
@@ -223,8 +229,9 @@ SubProceso ordenarAsc(vuelo,cont,columnaAOrdenar)
 	definir aux Como Caracter
 	para i = 0 hasta cont -1
 		posMenor = i
-		para j = i + 1 hasta cont  - 2
-			si ConvertirANumero(vuelo[i,columnaAOrdenar]) > ConvertirANumero(vuelo[j,columnaAOrdenar])	
+		para j = i + 1 hasta cont  - 1
+			si ConvertirANumero(vuelo[posMenor,columnaAOrdenar]) > ConvertirANumero(vuelo[j,columnaAOrdenar])
+				posMenor = j
 				para h=0 hasta 8
 					aux = vuelo[i,h]										
 					vuelo[i,h] = vuelo[j,h]
@@ -239,9 +246,9 @@ FinSubProceso
 SubProceso ordenarDesc(vuelo,cont,columnaAOrdenar)
 	definir posMenor Como Entero
 	definir aux como cadena
-	para i = 0 hasta cont
+	para i = 0 hasta cont - 1
 		posMenor = i
-		para j = i + 1 hasta cont
+		para j = i + 1 hasta cont -1
 			si ConvertirANumero(vuelo[posMenor,columnaAOrdenar]) < ConvertirANumero(vuelo[j,columnaAOrdenar])
 				posMenor = j
 				para h = 0 hasta 8
@@ -261,18 +268,16 @@ SubProceso buscarNumeroAsiento(vuelo,cont,columnaAbuscar)
 	definir asientoEncontrdo Como Logico
 	escribir "ingrese el asiento que desea buscar"
 	leer AsientoAbuscar
-	si cont>2
-		ordenarAsc(vuelo,cont,columnaAbuscar)
-	FinSi
+	ordenarAsc(vuelo,cont,columnaAbuscar)
 	
 	primero = 0
 	ultimo = cont
 	repetir
 		mitad = trunc((primero + ultimo) / 2)							
-		si vuelo[mitad,x] = AsientoAbuscar
+		si ConvertirANumero(vuelo[mitad,columnaAbuscar]) = AsientoAbuscar
 			asientoEncontrdo = Verdadero
 			
-		Sino si vuelo[mitad,columnaAbuscar] > AsientoAbuscar
+		Sino si ConvertirANumero(vuelo[mitad,columnaAbuscar]) > AsientoAbuscar
 				ultimo = ultimo - 1
 			SiNo
 				primero = primero + 1
@@ -280,9 +285,9 @@ SubProceso buscarNumeroAsiento(vuelo,cont,columnaAbuscar)
 		FinSi
 	hasta que asientoEncontrdo o primero > ultimo
 	si asientoEncontrdo 
-		escribir  "Nombre y Apellido: ",vuelo[cont,1] "  " , vuelo[cont,2]
-		escribir "Ruta: ", vuelo[cont,7]
-		escribir "DNI: ", vuelo[cont,3]
+		escribir  "Nombre y Apellido: ",vuelo[asientoAbuscar,1] "  " , vuelo[AsientoAbuscar,2]
+		escribir "Ruta: ", vuelo[AsientoAbuscar,7]
+		escribir "DNI: ", vuelo[AsientoAbuscar,3]
 	SiNo
 		escribir "Asiento no encontrado"
 	FinSi
@@ -293,22 +298,21 @@ SubProceso buscarNombrePasajero(vuelo,cont,nombre,apellido)
 	definir nombreAbuscar, apellidoAbuscar,aux como cadena
 	definir  encontrado Como Logico
 	
-si cont>2
-	para i = 0 hasta cont-2
-		posMenor = i
-		para j = i + 1 hasta cont -1
-			si Concatenar(vuelo[j,nombre],vuelo[j,apellido]) < Concatenar(vuelo[posMenor,nombre],vuelo[posMenor,apellido])
-				posMenor = j
-			FinSi
-			para k = 0 hasta 8
-				aux = vuelo[i,k]
-				vuelo[i,k] = vuelo[j,k]
-				vuelo[posMenor,k] = aux
+	si cont>2
+		para i = 0 hasta cont-2
+			posMenor = i
+			para j = i + 1 hasta cont -1
+				si Concatenar(vuelo[j,nombre],vuelo[j,apellido]) < Concatenar(vuelo[posMenor,nombre],vuelo[posMenor,apellido])
+					para k = 0 hasta 8
+						aux = vuelo[i,k]
+						vuelo[i,k] = vuelo[j,k]
+						vuelo[posMenor,k] = aux
+					FinPara	
+				FinSi
 			FinPara
 		FinPara
-	FinPara
-FinSi
-
+	FinSi
+	
 	escribir "ingrese nombre a buscar"
 	leer nombreAbuscar
 	escribir "ingrese apellido a buscar"
@@ -328,15 +332,15 @@ FinSi
 			FinSi
 		FinSi
 		
-		Hasta Que encontrado o primero > ultimo
-		si encontrado
-			escribir " Pasajero: ", vuelo[mitad,0]
-			escribir "Ruta: ", vuelo[mitad, 7]
-			escribir "Dni: ", vuelo[mitad, 3]
-		SiNo
-			escribir "Pasajero no encontrado"
-	    FinSi
-		
+	Hasta Que encontrado o primero > ultimo
+	si encontrado
+		escribir "Asiento: ", vuelo[mitad,0]
+		escribir "Ruta: ", vuelo[mitad, 7]
+		escribir "Dni: ", vuelo[mitad, 3]
+	SiNo
+		escribir "Pasajero no encontrado"
+	FinSi
+	
 FinSubProceso
 
 //_____________________________________________________VERIFICAR MENU_________________________________________________________
@@ -345,13 +349,11 @@ SubProceso verificacion = verificarMenu(menu)
 	definir verificacion Como Caracter
 	definir bandera Como Entero
 	
-	escribir "1 - Venta de pasaje"
-	escribir "2 - Buscar pasaje vendido"
-	escribir "3 - Buscar pasajero"
+	escribir "1 - Cargar datos de un pasajero"
+	escribir "2 - Buscar pasajero por asiento"
+	escribir "3 - Buscar pasajero por nombre"
 	escribir "4 - Ordenar y mostrar lista pasajeros"
-	escribir "5 - Listado/s"
-	
-	
+	escribir "5 - Listado/s de venta"
 	escribir "Ingrese la palabra salir para finalizar el programa"
 	
 	repetir 
@@ -386,7 +388,7 @@ SubProceso opcionVuelo = elegirRuta(ruta)
 			escribir "opcion incorrecta"
 			
 		FinSi
-	hasta que opcionVuelo < 4 y opcionVuelo > 0
+	hasta que opcionVuelo < 5 y opcionVuelo > 0
 	
 	
 FinSubProceso
@@ -407,15 +409,34 @@ SubProceso opt = seleccionarAscDesc(optAscDesc)
 FinSubProceso
 
 
-//_____________________________________________Mostrar Pasajero __________________________
+//_____________________________________________Mostrar Pasajeros __________________________
 SubProceso mostrarPasajeros(vuelo,cont,n)
-	escribir "numero de pasaje " 
-	para i = 0 hasta cont - 1
-		Escribir "-------------------------------------------------------"
-		para j = 0 hasta n - 1 
-			Escribir Sin Saltar " | " vuelo[i,j] 
+	
+	si cont > 0
+		escribir "| Asiento | Nombre | Apellido |   DNI    |  Telefono   |Equip en bodega|  N°pasajero |    Destino Seleccionado     |  Costo |"
+		Escribir "-----------------------------------------------------------------------------------------------------------------------"
+		para i = 0 hasta cont - 1
+			para j = 0 hasta n - 1 
+				si j = 8
+					escribir sin saltar " | $", vuelo[i,j] " |"
+					SiNo si j = 6
+							escribir sin saltar "  |   ", vuelo[i,j] "   "
+						sino si j = 4
+							
+							escribir sin saltar " | +54 " vuelo[i,j] " "
+						sino
+							Escribir Sin Saltar "| " vuelo[i,j] " "		
+					FinSi
+					FinSi
+				FinSi
+				
+			FinPara
+			escribir " " 
+			Escribir "-----------------------------------------------------------------------------------------------------------------------"
 		FinPara
-	FinPara
+	SiNo
+	escribir "Aun no se han cargado datos"
+	FinSi
 FinSubProceso
 
 //________________LISTADOS________________________
