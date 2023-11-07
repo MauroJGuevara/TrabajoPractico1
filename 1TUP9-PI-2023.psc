@@ -1,138 +1,154 @@
-Algoritmo sistPasajesAereos
-	// Mauro Guevara, Lautaro Molina, Gianina Franquini
-	definir vueloBA_BAR, vueloBA_SAL, vueloROS_BA, vueloMDP_MEN, menu Como cadena
-	definir contBA_BAR, ruta,columnaAsiento,columnaTotal como entero
-	Dimension vueloBA_BAR[120,9], vueloBA_SAL[120,9], vueloROS_BA[80,9], vueloMDP_MEN[80,9]
-	contBA_BAR =0
-	contBA_SAL = 0
-	contROS_BA = 0
-	contMDP_MEN = 0
-	columnaAsiento = 0
-	columnaTotal = 9
-	columnaNombre = 1
-	columnaApellido = 2
-	
-	
-	repetir 
-		escribir "*****************************"
-		Escribir  "    BIENVENIDOS A AIRMAX    "
-		Escribir  "      Tu mejor opción       ";
-		escribir "*****************************"
-		escribir "              MENU           "
-		menu = verificarMenu(menu)
-		segun menu hacer
-			"1":
-				ruta = elegirRuta(ruta)
-				
-				Segun ruta Hacer
-					1:
-						si contBA_BAR < 120
-							vueloBA_BAR[contBA_BAR,7] = "Buenos Aires - Bariloche"
-							cargarDatos(vueloBA_BAR, contBA_BAR,ruta)
-						SiNo
-							escribir "El vuelo no tiene asientos disponibles"
-						FinSi
-					2:
-						si contBA_SAL < 120
-							vueloBA_SAL[contBA_SAL,7] = "Bueno Aires - Salta"
-							cargarDatos(vueloBA_SAL, contBA_SAL,ruta)
-						SiNo
-							escribir "El vuelo no tiene asientos disponibles"
-						FinSi
-					3:
-						si contROS_BA < 80
-							vueloROS_BA[contROS_BA,7] = "Rosario - Buenos Aires"
-							cargarDatos(vueloROS_BA, contROS_BA,ruta)
-						SiNo
-							escribir "El vuelo no tiene asientos disponibles"
-						FinSi
-					4:
-						si contMDP_MEN <80
-							vueloMDP_MEN[contMDP_MEN,7] = "Mar Del Plata - Mendoza"
-							cargarDatos(vueloMDP_MEN, contMDP_MEN,ruta)
-						SiNo
-							escribir "El vuelo no tiene asientos disponibles"
-						FinSi
-				FinSegun
-				
-			"2":
-				ruta = elegirRuta(ruta)
-				
-				segun ruta Hacer
-					1:
-						buscarNumeroAsiento(vueloBA_BAR, contBA_BAR,columnaAsiento)
-					2:
-						buscarNumeroAsiento(vueloBA_SAL, contBA_SAL,columnaAsiento)
-					3:
-						buscarNumeroAsiento(vueloROS_BA, contROS_BA,columnaAsiento)
-					4:
-						buscarNumeroAsiento(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
-				FinSegun
-			"3":
-				ruta = elegirRuta(ruta)
-				segun ruta hacer
-					1:
-						buscarNombrePasajero(vueloBA_BAR, contBA_BAR,columnaNombre,columnaApellido)
-					2:
-						buscarNombrePasajero(vueloBA_SAL, contBA_SAL,columnaNombre,columnaApellido)
-					3:
-						buscarNombrePasajero(vueloROS_BA, contROS_BA,columnaNombre,columnaApellido)
-					4:	
-						buscarNombrePasajero(vueloMDP_MEN, contMDP_MEN,columnaNombre,columnaApellido)
-				finSegun		
-			"4":
-				ruta = elegirRuta(ruta)
-				segun ruta
-					1:
-						optAscDesc = seleccionarAscDesc(optAscDesc)
-						segun optAscDesc
-							"a":
+algoritmo sistPasajesAereos
+// Mauro Guevara, Lautaro Molina, Gianina Franquini
+definir vueloBA_BAR, vueloBA_SAL, vueloROS_BA, vueloMDP_MEN, menu Como cadena
+definir contBA_BAR, ruta,columnaAsiento,columnaTotal como entero
+Dimension vueloBA_BAR[120,9], vueloBA_SAL[120,9], vueloROS_BA[80,9], vueloMDP_MEN[80,9]
+contBA_BAR =0
+contBA_SAL = 0
+contROS_BA = 0
+contMDP_MEN = 0
+columnaAsiento = 0
+columnaTotal = 9
+columnaNombre = 1
+columnaApellido = 2
+
+
+repetir 
+	escribir "*****************************"
+	Escribir  "    BIENVENIDOS A AIRMAX    "
+	Escribir  "      Tu mejor opción       ";
+	escribir "*****************************"
+	escribir "              MENU           "
+	menu = verificarMenu(menu)
+	segun menu hacer
+		"1":
+			ruta = elegirRuta(ruta)
+			
+			Segun ruta Hacer
+				1:
+					si contBA_BAR < 120
+						vueloBA_BAR[contBA_BAR,7] = "Buenos Aires - Bariloche"
+						cargarDatos(vueloBA_BAR, contBA_BAR,ruta)
+					SiNo
+						escribir "El vuelo no tiene asientos disponibles"
+					FinSi
+				2:
+					si contBA_SAL < 120
+						vueloBA_SAL[contBA_SAL,7] = "Bueno Aires - Salta"
+						cargarDatos(vueloBA_SAL, contBA_SAL,ruta)
+					SiNo
+						escribir "El vuelo no tiene asientos disponibles"
+					FinSi
+				3:
+					si contROS_BA < 80
+						vueloROS_BA[contROS_BA,7] = "Rosario - Buenos Aires"
+						cargarDatos(vueloROS_BA, contROS_BA,ruta)
+					SiNo
+						escribir "El vuelo no tiene asientos disponibles"
+					FinSi
+				4:
+					si contMDP_MEN <80
+						vueloMDP_MEN[contMDP_MEN,7] = "Mar Del Plata - Mendoza"
+						cargarDatos(vueloMDP_MEN, contMDP_MEN,ruta)
+					SiNo
+						escribir "El vuelo no tiene asientos disponibles"
+					FinSi
+			FinSegun
+			
+		"2":
+			ruta = elegirRuta(ruta)
+			
+			segun ruta Hacer
+				1:
+					buscarNumeroAsiento(vueloBA_BAR, contBA_BAR,columnaAsiento)
+				2:
+					buscarNumeroAsiento(vueloBA_SAL, contBA_SAL,columnaAsiento)
+				3:
+					buscarNumeroAsiento(vueloROS_BA, contROS_BA,columnaAsiento)
+				4:
+					buscarNumeroAsiento(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
+			FinSegun
+		"3":
+			ruta = elegirRuta(ruta)
+			segun ruta hacer
+				1:
+					buscarNombrePasajero(vueloBA_BAR, contBA_BAR,columnaNombre,columnaApellido)
+				2:
+					buscarNombrePasajero(vueloBA_SAL, contBA_SAL,columnaNombre,columnaApellido)
+				3:
+					buscarNombrePasajero(vueloROS_BA, contROS_BA,columnaNombre,columnaApellido)
+				4:	
+					buscarNombrePasajero(vueloMDP_MEN, contMDP_MEN,columnaNombre,columnaApellido)
+			finSegun		
+		"4":
+			ruta = elegirRuta(ruta)
+			segun ruta
+				1:
+					optAscDesc = seleccionarAscDesc(optAscDesc)
+					segun optAscDesc
+						"a":
+							si contBA_BAR > 1
 								ordenarAsc(vueloBA_BAR,contBA_BAR,columnaAsiento)
-								mostrarPasajeros(vueloBA_BAR,contBA_BAR,columnaTotal)
-							"b":
+							FinSi
+							mostrarPasajeros(vueloBA_BAR,contBA_BAR,columnaTotal)
+						"b":
+							si contBA_BAR > 1
 								ordenarDesc(vueloBA_BAR,contBA_BAR,columnaAsiento)
-								mostrarPasajeros(vueloBA_BAR,contBA_BAR,columnaTotal)
-						FinSegun
-					2:
-						optAscDesc = seleccionarAscDesc(optAscDesc)
-						segun optAscDesc
-							"a":
+							FinSi
+							mostrarPasajeros(vueloBA_BAR,contBA_BAR,columnaTotal)
+					FinSegun
+				2:
+					optAscDesc = seleccionarAscDesc(optAscDesc)
+					segun optAscDesc
+						"a":
+							si  contBA_SAL > 1
 								ordenarAsc(vueloBA_SAL, contBA_SAL,columnaAsiento)
-								mostrarPasajeros(vueloBA_SAL, contBA_SAL,columnaTotal)
-							"b":
+							finSi	
+							mostrarPasajeros(vueloBA_SAL, contBA_SAL,columnaTotal)
+						"b":
+							si  contBA_SAL > 1
 								ordenarDesc(vueloBA_SAL, contBA_SAL,columnaAsiento)
-								mostrarPasajeros(vueloBA_SAL, contBA_SAL,columnaTotal)
-						FinSegun
-					3:
-						optAscDesc = seleccionarAscDesc(optAscDesc)
-						segun optAscDesc
-							"a":
+							FinSi	
+							mostrarPasajeros(vueloBA_SAL, contBA_SAL,columnaTotal)
+					FinSegun
+				3:
+					optAscDesc = seleccionarAscDesc(optAscDesc)
+					segun optAscDesc
+						"a":
+							si contROS_BA > 1
 								ordenarAsc(vueloROS_BA, contROS_BA,columnaAsiento)
-								mostrarPasajeros(vueloROS_BA, contROS_BA,columnaTotal)
-							"b":
+							finSi	
+							mostrarPasajeros(vueloROS_BA, contROS_BA,columnaTotal)
+						"b":
+							si contROS_BA > 1
 								ordenarDesc(vueloROS_BA, contROS_BA,columnaAsiento)
-								mostrarPasajeros(vueloROS_BA, contROS_BA,columnaTotal)
-						FinSegun
-					4:
-						optAscDesc = seleccionarAscDesc(optAscDesc)
-						segun optAscDesc
-							"a":
+							Finsi
+							mostrarPasajeros(vueloROS_BA, contROS_BA,columnaTotal)
+					FinSegun
+				4:
+					optAscDesc = seleccionarAscDesc(optAscDesc)
+					segun optAscDesc
+						"a":
+							si contMDP_MEN > 1
 								ordenarAsc(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
-								mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaTotal)
-							"b":
+							FinSi
+							mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaTotal)
+						"b":
+							si contMDP_MEN > 1
 								ordenarDesc(vueloMDP_MEN, contMDP_MEN,columnaAsiento)
-								mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaTotal)
-						FinSegun
-				FinSegun
-				
-			"5":
+							FinSi
+							mostrarPasajeros(vueloMDP_MEN, contMDP_MEN,columnaTotal)
+					FinSegun
+			FinSegun
+			
+		"5":
 			Listado(contBA_BAR,contBA_SAL,contROS_BA,contMDP_MEN)
 			
-			"SALIR":
-				Escribir "    ¡ Adios !      "
-				Escribir "Cerrando programa.."
-		FinSegun
-	hasta que menu = "SALIR"
+		"SALIR":
+			Escribir "    ¡ Adios !      "
+			Escribir "Cerrando programa.."
+	FinSegun
+hasta que menu = "SALIR"
 FinAlgoritmo
 
 //_______________________________________________________CARGAR DATOS____________________
@@ -148,7 +164,7 @@ subproceso cargarDatos(vuelo, cont por referencia,ruta)
 		    leer nombrePasajero
 			vuelo[cont,1] = nombrePasajero
 	    FinSi
-	  
+		
 	Mientras Que longitud(nombrePasajero) = 0
 	
 	Repetir
@@ -224,43 +240,48 @@ FinSubProceso
 
 //__________________________________________________________ORDENAR ASCENDENTE__________________________________________________________
 
-SubProceso ordenarAsc(vuelo,cont,columnaAOrdenar)
-	definir posMenor Como Entero
-	definir aux Como Caracter
-	para i = 0 hasta cont -1
-		posMenor = i
-		para j = i + 1 hasta cont  - 1
-			si ConvertirANumero(vuelo[posMenor,columnaAOrdenar]) > ConvertirANumero(vuelo[j,columnaAOrdenar])
-				posMenor = j
-				para h=0 hasta 8
-					aux = vuelo[i,h]										
-					vuelo[i,h] = vuelo[j,h]
-					vuelo[posMenor,h] = aux
-				FinPara
-			FinSi
+// el error fue por poner el FOR h de sustitucion de datos dentro del SI.
+
+SubProceso ordenarAsc(vuelo, cont, columnaAOrdenar)
+    definir posMenor Como Entero
+    definir aux Como Caracter
+	
+    para i = 0 hasta cont - 1
+        posMenor = i
+        para j = i + 1 hasta cont - 1
+            si ConvertirANumero(vuelo[posMenor, columnaAOrdenar]) > ConvertirANumero(vuelo[j, columnaAOrdenar])
+                posMenor = j
+            FinSi
+			para h = 0 hasta 8
+				aux = vuelo[i, h]
+				vuelo[i, h] = vuelo[posMenor, h]
+				vuelo[posMenor, h] = aux
+			FinPara	
 		FinPara
-	FinPara
+    FinPara
 FinSubProceso
 
+
 //___________________________________________________ORDENAR DESCENDENTE_________________________________________________________________
-SubProceso ordenarDesc(vuelo,cont,columnaAOrdenar)
-	definir posMenor Como Entero
-	definir aux como cadena
-	para i = 0 hasta cont - 1
-		posMenor = i
-		para j = i + 1 hasta cont -1
-			si ConvertirANumero(vuelo[posMenor,columnaAOrdenar]) < ConvertirANumero(vuelo[j,columnaAOrdenar])
-				posMenor = j
-				para h = 0 hasta 8
-					aux = vuelo[i,h]									
-					vuelo[i,h] = vuelo[j,h]
-					vuelo[posMenor,h] = aux
-				FinPara
-				
+SubProceso ordenarDesc(vuelo, cont, columnaAOrdenar)
+    definir posMenor Como Entero
+    definir aux Como Caracter
+	
+    para i = 0 hasta cont - 1
+        posMenor = i
+        para j = i + 1 hasta cont - 1
+            si ConvertirANumero(vuelo[posMenor, columnaAOrdenar]) < ConvertirANumero(vuelo[j, columnaAOrdenar])
+                posMenor = j
 			FinSi
-		FinPara
-	FinPara
+			para h = 0 hasta 8
+				aux = vuelo[i, h]
+				vuelo[i, h] = vuelo[j, h]
+				vuelo[posMenor, h] = aux
+			FinPara
+        FinPara
+    FinPara
 FinSubProceso
+
 
 //_______________________________________________________BUSQUEDA DE PASAJERO POR ASIENTO_____________________________________________________________
 SubProceso buscarNumeroAsiento(vuelo,cont,columnaAbuscar)
@@ -298,17 +319,18 @@ SubProceso buscarNombrePasajero(vuelo,cont,nombre,apellido)
 	definir nombreAbuscar, apellidoAbuscar,aux como cadena
 	definir  encontrado Como Logico
 	
-	si cont>2
+	si cont>1
 		para i = 0 hasta cont-2
 			posMenor = i
 			para j = i + 1 hasta cont -1
 				si Concatenar(vuelo[j,nombre],vuelo[j,apellido]) < Concatenar(vuelo[posMenor,nombre],vuelo[posMenor,apellido])
-					para k = 0 hasta 8
-						aux = vuelo[i,k]
-						vuelo[i,k] = vuelo[j,k]
-						vuelo[posMenor,k] = aux
-					FinPara	
+					posMenor = j
 				FinSi
+				para k = 0 hasta 8
+					aux = vuelo[i,k]
+					vuelo[i,k] = vuelo[j,k]
+					vuelo[posMenor,k] = aux
+				FinPara	
 			FinPara
 		FinPara
 	FinSi
@@ -419,14 +441,14 @@ SubProceso mostrarPasajeros(vuelo,cont,n)
 			para j = 0 hasta n - 1 
 				si j = 8
 					escribir sin saltar " | $", vuelo[i,j] " |"
-					SiNo si j = 6
-							escribir sin saltar "  |   ", vuelo[i,j] "   "
-						sino si j = 4
+				SiNo si j = 6
+						escribir sin saltar "  |   ", vuelo[i,j] "   "
+					sino si j = 4
 							
 							escribir sin saltar " | +54 " vuelo[i,j] " "
 						sino
 							Escribir Sin Saltar "| " vuelo[i,j] " "		
-					FinSi
+						FinSi
 					FinSi
 				FinSi
 				
@@ -435,7 +457,7 @@ SubProceso mostrarPasajeros(vuelo,cont,n)
 			Escribir "-----------------------------------------------------------------------------------------------------------------------"
 		FinPara
 	SiNo
-	escribir "Aun no se han cargado datos"
+		escribir "Aun no se han cargado datos"
 	FinSi
 FinSubProceso
 
